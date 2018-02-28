@@ -9,23 +9,27 @@ module.exports = function (passport) {
         callbackURL: fbConfig.callbackURL,
         profileFields: fbConfig.profileFields
     }, function (accessToken, refreshToken, profile, done) {
-        FBUser.findOne({fb_id: profile.id},function(err, user){
-            if(err) throw err
-            else if(!user){
-                fbuser = new FBUser({
-                    fb_id : profile._json.id,
-                    email : profile._json.email,
-                    token : accessToken,
-                    username: profile._json.name,
-                    provider : profile.provider
-                })
-                fbuser.save(function (err, user) {
-                    return done(err, user)
-                })
-            }
-            else{
-                return done(user)
-            }
+            process.nextTick(function() {
+            FBUser.findOne({fb_id: profile.id},function(err, user){
+                if(err) done(err)
+                if(!user){
+                    fbuser = new FBUser({
+                        fb_id : profile._json.id,
+                        email : profile._json.email,
+                        token : accessToken,
+                        username: profile._json.name,
+                        provider : profile.provider
+                    })
+                    fbuser.save(function (err, user) {
+                        console.log('create ', user)
+                        return done(err, user)
+                    })
+                }
+                else{
+                    console.log('else ' , user)
+                    return done(null,user)
+                }
+            })
         })
     }))
 
