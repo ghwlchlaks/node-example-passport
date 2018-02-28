@@ -14,6 +14,9 @@ router.get('/profile',isLoggedIn,function(req, res, next){
 router.get('/login/facebook',passport.authenticate('facebook',{scope:['email']}))
 router.get('/login/facebook/callback',passport.authenticate('facebook',{ successRedirect: '/profile',failureRedirect: '/'}))
 
+router.get('/login/google',passport.authenticate('google',{scope:['profile']}))
+router.get('/login/google/callback',passport.authenticate('google',{ successRedirect: '/profile',failureRedirect: '/'}))
+
 router.get('/logout', function(req,res){
   req.logout();
   res.redirect('/')

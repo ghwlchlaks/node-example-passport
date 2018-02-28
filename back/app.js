@@ -15,7 +15,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-mongoose.connect(dbconfig.face_collection)
+mongoose.connect(dbconfig.social_collection)
 mongoose.Promise = global.Promise
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error: '))
@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 require('./policies/FBauthenticationManager')(passport)
+require('./policies/GoogleauthenticationManager')(passport)
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -52,6 +53,8 @@ app.use('/profile',index)
 
 app.use('/login/facebook',index)
 app.use('/login/facebook/callback', index)
+app.use('/login/google',index)
+app.use('/login/google/callback', index)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

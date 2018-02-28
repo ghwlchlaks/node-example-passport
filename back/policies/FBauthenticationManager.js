@@ -1,20 +1,20 @@
 var FBUser = require('../models/user').FBUser
-var fbConfig = require('../config/fbConfig')
+var fbConfig = require('../config/SocialConfig')
 var FacebookStrategy = require('passport-facebook')
 
 module.exports = function (passport) {
     passport.use(new FacebookStrategy({
-        clientID: fbConfig.clientID,
-        clientSecret: fbConfig.clientSecret,
-        callbackURL: fbConfig.callbackURL,
+        clientID: fbConfig.facebook_config.clientID,
+        clientSecret: fbConfig.facebook_config.clientSecret,
+        callbackURL: fbConfig.facebook_config.callbackURL,
         profileFields: fbConfig.profileFields
     }, function (accessToken, refreshToken, profile, done) {
             process.nextTick(function() {
-            FBUser.findOne({fb_id: profile.id},function(err, user){
+            FBUser.findOne({social_id: profile.id},function(err, user){
                 if(err) done(err)
                 if(!user){
                     fbuser = new FBUser({
-                        fb_id : profile._json.id,
+                        social_id : profile._json.id,
                         email : profile._json.email,
                         token : accessToken,
                         username: profile._json.name,
