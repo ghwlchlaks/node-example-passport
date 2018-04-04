@@ -11,6 +11,10 @@ router.get('/profile',isLoggedIn,function(req, res, next){
   res.render('profile', {user : req.user, token : req.user.token})
 })
 
+// router.get('/profile/getPicture', isLoggedIn, function(req, res, next) {
+//   // 디비와 token 혹은 user data를 비교해서 해당 유저에 맞는 그림을 디비에서 가져오는 메소드 작성
+// })
+
 router.get('/login/facebook',passport.authenticate('facebook',{scope:['email']}))
 router.get('/login/facebook/callback',passport.authenticate('facebook',{ successRedirect: '/profile',failureRedirect: '/'}))
 

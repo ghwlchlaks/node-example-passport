@@ -27,8 +27,6 @@ db.once('open', function (callback) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(session({
   secret: 'test',
   resave: false,
