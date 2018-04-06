@@ -8,6 +8,7 @@ module.exports = function (passport) {
         clientSecret: googleConfig.google_config.clientSecret,
         callbackURL: googleConfig.google_config.callbackURL,
     }, function (accessToken, refreshToken, profile, done) {
+	console.log('google sucess')
             process.nextTick(function() {
                 GoogleUser.findOne({social_id: profile.id},function(err, user){
                 if(err) done(err)

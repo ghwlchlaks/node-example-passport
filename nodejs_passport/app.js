@@ -15,6 +15,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+
+/*
 mongoose.connect(dbconfig.social_collection)
 mongoose.Promise = global.Promise
 var db = mongoose.connection
@@ -22,6 +24,7 @@ db.on('error', console.error.bind(console, 'connection error: '))
 db.once('open', function (callback) {
   console.log('mongo db connected..')
 })
+*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -71,5 +74,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(process.env.PORT || 3000)
+app.listen(process.env.PORT || 80, '0.0.0.0')
 module.exports = app;
