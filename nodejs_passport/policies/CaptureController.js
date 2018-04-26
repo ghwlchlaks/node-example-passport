@@ -13,7 +13,7 @@ module.exports = {
         var getData = req.body
         var data = {
             "FB_ID" : user.social_id,
-            "Ticket_ID" : "",
+            "Ticket_ID" : "test",
             "URL" : getData.URL,
             "Issue_time" : getData.Issue_time,
             "bCleared" : false,

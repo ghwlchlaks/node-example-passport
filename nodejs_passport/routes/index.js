@@ -3,12 +3,13 @@ var router = express.Router();
 var passport = require('passport')
 
 var captureController = require('../policies/CaptureController')
-// var redis = require('redis')
-// var subscriber = redis.createClient()
-// var publisher = redis.createClient()
-
 /* GET home page. */
+
 router.get('/',function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/login',function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -39,20 +40,7 @@ function isLoggedIn(req, res, next) {
   res.redirect('/')
 }
 
-router.post('/capture/require', captureController.captureRequire)
+router.post('/capture/call', captureController.captureRequire)
 router.post('/capture/clearTicket', captureController.clearTicket)
 
-// subscriber.on('message', function(channel, message) { //get으로 받은 값을 처리하는 부분
-//   if(channel === 'DoCapture') {
-
-//   }
-//   console.log('message ' + message + 'on channel + ' + channel + ' arrived!')
-// })
-// subscriber.subscribe('test1') //get으로 받을 부분을 설정
-
-// router.post('/capture', function(req, res){
-//   var captureUrl = req.body.url
-//   publisher.publish('DoCapture', captureUrl)  //set : capture 버튼 클릭했을때 key value값을 등록 
-//   res.send('success')
-// })
 module.exports = router;

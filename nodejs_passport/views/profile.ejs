@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+<!--    <link rel='stylesheet' href='/stylesheets/style.css' /> -->
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -24,7 +24,7 @@
 
         $.ajax({
           type: "POST",
-          url: "/capture/require",
+          url: "/capture/call",
           contentType : "application/json",
           data: JSON.stringify({"URL" : url, "Issue_time" : new Date().getTime()}),
           success:function(args){

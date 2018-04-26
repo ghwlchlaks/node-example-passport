@@ -16,7 +16,6 @@ var users = require('./routes/users');
 var app = express();
 
 
-/*
 mongoose.connect(dbconfig.social_collection)
 mongoose.Promise = global.Promise
 var db = mongoose.connection
@@ -24,7 +23,7 @@ db.on('error', console.error.bind(console, 'connection error: '))
 db.once('open', function (callback) {
   console.log('mongo db connected..')
 })
-*/
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,8 +48,8 @@ app.use(passport.session())
 
 app.use('/capture',index)
 
-
 app.use('/', index);
+app.use('/login', index);
 app.use('/users', users);
 
 app.use('/profile',index)
@@ -60,7 +59,7 @@ app.use('/login/facebook/callback', index)
 app.use('/login/google',index)
 app.use('/login/google/callback', index)
 
-app.use('/capture/require', index)
+app.use('/capture/call', index)
 app.use('/capture/clearTicket', index)
 
 // catch 404 and forward to error handler
@@ -80,5 +79,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(process.env.PORT || 80, '0.0.0.0')
+app.listen(process.env.PORT || 3000, '0.0.0.0')
 module.exports = app;
