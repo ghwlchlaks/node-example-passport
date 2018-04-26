@@ -9,6 +9,7 @@ module.exports = function (passport) {
         callbackURL: fbConfig.facebook_config.callbackURL,
         profileFields: fbConfig.profileFields
     }, function (accessToken, refreshToken, profile, done) {
+	console.log('facebook sucess')
             process.nextTick(function() {
             FBUser.findOne({social_id: profile.id},function(err, user){
                 if(err) done(err)
