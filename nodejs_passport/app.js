@@ -44,6 +44,9 @@ require('./policies/GoogleauthenticationManager')(passport)
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use('/capture',index)
+
+
 app.use('/', index);
 app.use('/users', users);
 
@@ -53,6 +56,9 @@ app.use('/login/facebook',index)
 app.use('/login/facebook/callback', index)
 app.use('/login/google',index)
 app.use('/login/google/callback', index)
+
+app.use('/capture/require', index)
+app.use('/capture/clearTicket', index)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
