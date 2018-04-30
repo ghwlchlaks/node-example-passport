@@ -5,6 +5,30 @@ var IssueTicket = require('../models/issueTicket').issueTicket
 // social config
 var fbConfig = require('../config/SocialConfig')
 
+//redis set
+var redis = require('redis');
+var captureList = redis.createClient(6379, "172.17.0.3");
+
+var inputList = function(fb_id, ticket_id, url, res){
+	//input list('CaptureList', 'FB_ID', 'Ticket_ID', 'URL')
+	var data = {
+		"fb_id" : fb_id,
+		"ticket_id" : ticket_id,
+		"url" : url
+	}
+	captureList.lpush( 'CaptureList', data, function(err, reply){
+            if(err) {res.send({state : false , message: err})}
+	    else {
+			captureList.publish('CaptureList', 'Data Input',function(err){
+				 if(err) {res.send({state : false , message: err})}
+			});
+			res.send({state: true, message: reply})
+		}
+	});
+	
+}
+
+
 module.exports = {
     captureRequire(req, res) {
         console.log(req.user)
@@ -23,7 +47,8 @@ module.exports = {
         issueTicket.save(function(err) {
             if(err) {res.send({state : false , message: err})}
             else {
-                res.send({state: true, message: issueTicket})
+		inputList(issueTicket.FB_ID, issueTicket.Ticket_ID, issueTicket.URL, res)
+//                res.send({state: true, message: issueTicket})
             }
         })
     },
