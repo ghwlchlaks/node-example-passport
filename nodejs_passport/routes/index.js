@@ -40,7 +40,7 @@ function isLoggedIn(req, res, next) {
   res.redirect('/')
 }
 
-router.post('/capture/putCaptureWork', captureController.captureRequire)
+router.post('/capture/putCaptureWork', captureController.putCaptureWork)
 router.post('/capture/clearTicket', captureController.clearTicket)
 
 module.exports = router;
