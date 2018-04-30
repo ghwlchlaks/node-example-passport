@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var issueTicketSchema = new Schema({
-    FB_ID: { type: String, unique: true, required: true},  //facebook number id (unique)
+    FB_ID: { type: String, required: true},  //facebook number id
     Ticket_ID: {type:String, unique: true, required: true}, //ticket id : task id(unique)
     URL: { type: String, required: true }, //capture URL
     Issue_time : {type: Date, required: true}, // issue_time : required time

@@ -59,7 +59,7 @@ app.use('/login/facebook/callback', index)
 app.use('/login/google',index)
 app.use('/login/google/callback', index)
 
-app.use('/capture/call', index)
+app.use('/capture/putCaptureWork', index)
 app.use('/capture/clearTicket', index)
 
 // catch 404 and forward to error handler

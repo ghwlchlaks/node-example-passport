@@ -1,54 +1,42 @@
-// monogoose models
+// monogoose model
 var FBUser = require('../models/user').FBUser
 var IssueTicket = require('../models/issueTicket').issueTicket
-
-// social config
-var fbConfig = require('../config/SocialConfig')
 
 //redis set
 var redis = require('redis');
 var captureList = redis.createClient(6379, "172.17.0.3");
 
-var inputList = function(fb_id, ticket_id, url, res){
-	//input list('CaptureList', 'FB_ID', 'Ticket_ID', 'URL')
-	var data = {
-		"fb_id" : fb_id,
-		"ticket_id" : ticket_id,
-		"url" : url
-	}
-	captureList.lpush( 'CaptureList', data, function(err, reply){
-            if(err) {res.send({state : false , message: err})}
-	    else {
-			captureList.publish('CaptureList', 'Data Input',function(err){
-				 if(err) {res.send({state : false , message: err})}
-			});
-			res.send({state: true, message: reply})
-		}
-	});
-	
-}
-
+//crypto
+var crypto = require('crypto')
 
 module.exports = {
-    captureRequire(req, res) {
-        console.log(req.user)
-        console.log(req.body)
+    putCaptureWork(req, res) {
         var user = req.user
         var getData = req.body
-        var data = {
-            "FB_ID" : user.social_id,
-            "Ticket_ID" : "test",
-            "URL" : getData.URL,
-            "Issue_time" : getData.Issue_time,
-            "bCleared" : false,
-            "Clear_time" : getData.Issue_time
+        var Ticket_ID = crypto.createHash('sha256').update(user.social_id + getData.Issue_time + getData.URL).digest('base64') // hash 된 Ticket ID
+        /*
+        FB_ID : social account id 
+        Ticket_ID : FB_ID + Issue_time + URL 을 해쉬 한 값
+        URL : capture 요청한 페이지 url 
+        Issue_time : capture 요청이 발생한 시간
+        bCleared : clear유무 초기값 false
+        Clear_time : clear된 시간 초기값은 Issue_time과 동일
+        */
+       var data = {
+        "FB_ID" : user.social_id,
+        "Ticket_ID" : Ticket_ID,
+        "URL" : getData.URL,
+        "Issue_time" : getData.Issue_time,
+        "bCleared" : false,
+        "Clear_time" : getData.Issue_time
         }
+
         var issueTicket = new IssueTicket(data)
+
         issueTicket.save(function(err) {
             if(err) {res.send({state : false , message: err})}
             else {
-		inputList(issueTicket.FB_ID, issueTicket.Ticket_ID, issueTicket.URL, res)
-//                res.send({state: true, message: issueTicket})
+		        inputList(issueTicket.FB_ID, issueTicket.Ticket_ID, issueTicket.URL, res)
             }
         })
     },
@@ -72,4 +60,20 @@ module.exports = {
         })
         
     }
+}
+//input list('CaptureList', 'FB_ID', 'Ticket_ID', 'URL')
+var inputList = function(fb_id, ticket_id, url, res){
+    var data = JSON.stringify({"fb_id" : fb_id,"ticket_id" : ticket_id,"url" : url})
+    
+	captureList.lpush('CaptureList', data, function(err, reply){
+        if(err) {res.send({state : false , message: err})}
+	    else {
+			captureList.publish('CaptureList', 'Data Input',function(err){
+                if(err) {res.send({state : false , message: err})}
+                else {
+                    res.send({state: true, message: reply})
+                }
+			});
+		}
+	});
 }

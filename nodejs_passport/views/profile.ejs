@@ -24,7 +24,7 @@
 
         $.ajax({
           type: "POST",
-          url: "/capture/call",
+          url: "/capture/putCaptureWork",
           contentType : "application/json",
           data: JSON.stringify({"URL" : url, "Issue_time" : new Date().getTime()}),
           success:function(args){
