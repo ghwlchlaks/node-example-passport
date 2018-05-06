@@ -13,10 +13,6 @@ router.get('/login',function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/profile',isLoggedIn,function(req, res, next){
-  res.render('profile', {user : req.user, token : req.user.token})
-})
-
 // router.get('/profile/getPicture', isLoggedIn, function(req, res, next) {
 //   // 디비와 token 혹은 user data를 비교해서 해당 유저에 맞는 그림을 디비에서 가져오는 메소드 작성
 // })
@@ -34,7 +30,6 @@ router.get('/logout', function(req,res){
 function isLoggedIn(req, res, next) {
   console.log(req.isAuthenticated())
   if(req.isAuthenticated()){
-    console.log('a')
     return next()
   }
   res.redirect('/')
@@ -42,5 +37,6 @@ function isLoggedIn(req, res, next) {
 
 router.post('/capture/putCaptureWork', captureController.putCaptureWork)
 router.post('/capture/clearTicket', captureController.clearTicket)
+router.get('/profile',isLoggedIn, captureController.getCaptureImage)
 
 module.exports = router;

@@ -10,6 +10,12 @@
     <h1>name : <%= user.username %></h1>
     <h1>provider : <%= user.provider %></h1>
     <p> token : <%= token %></p>
+
+    <% for (var i=0; i< images.length; i++) { %>
+      <!-- <h1><%= images[i].Ticket_ID %></h1> -->
+      <img height="10%" width="10%" src= <%= images[i].Ticket_ID %>.png></img>
+    <% } %>
+
     <form action="/logout" method="GET">
       <input type="submit" value="로그아웃">
     </form>

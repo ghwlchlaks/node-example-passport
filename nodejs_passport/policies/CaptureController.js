@@ -58,7 +58,18 @@ module.exports = {
                 })
             }
         })
-        
+    },
+
+    getCaptureImage(req, res) {
+        var social_id = req.user.social_id
+
+        IssueTicket.find({"FB_ID" : social_id}, ['Ticket_ID'] ,function(err, result) {
+            console.log(result)
+            if(err) {res.send({state: false, message: err})}
+            else {
+                res.render('profile', {user: req.user, token: req.user.token, images: result})
+            }
+        })
     }
 }
 //input list('CaptureList', 'FB_ID', 'Ticket_ID', 'URL')
