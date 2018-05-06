@@ -41,7 +41,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '../../../Webcapture/result/img/')));
+app.use('/captureImages',express.static(path.join(__dirname, '/../../../Webcapture/result/img')));
+
 require('./policies/FBauthenticationManager')(passport)
 require('./policies/GoogleauthenticationManager')(passport)
 app.use(passport.initialize())

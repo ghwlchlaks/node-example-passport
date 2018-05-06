@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <!--  <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+  <link rel='stylesheet' href='/stylesheets/style.css' /> 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -10,10 +10,9 @@
     <h1>name : <%= user.username %></h1>
     <h1>provider : <%= user.provider %></h1>
     <p> token : <%= token %></p>
-
     <% for (var i=0; i< images.length; i++) { %>
       <!-- <h1><%= images[i].Ticket_ID %></h1> -->
-      <img height="10%" width="10%" src= <%= images[i].Ticket_ID %>thumbnail.jpg></img>
+      <img height="10%" width="10%" src= /captureImages/<%= images[i].Ticket_ID %>_thumbnail.jpg></img>
     <% } %>
 
     <form action="/logout" method="GET">
