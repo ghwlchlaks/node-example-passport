@@ -13,7 +13,7 @@ module.exports = {
     putCaptureWork(req, res) {
         var user = req.user
         var getData = req.body
-        var Ticket_ID = crypto.createHash('sha256').update(user.social_id + getData.Issue_time + getData.URL).digest('base64') // hash 된 Ticket ID
+        var Ticket_ID = crypto.createHash('sha256').update(user.social_id + getData.Issue_time + getData.URL).digest('hex') // hash 된 Ticket ID
         /*
         FB_ID : social account id 
         Ticket_ID : FB_ID + Issue_time + URL 을 해쉬 한 값
