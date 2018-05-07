@@ -28,7 +28,9 @@ module.exports = {
             "URL" : getData.URL,
             "issue_time" : getData.Issue_time,
             "bCleared" : false,
-            "clear_time" : getData.Issue_time
+            "clear_time" : getData.Issue_time,
+	    "img_path" : "",
+	    "hash" : ""
         }
         var issueTicket = new IssueTicket(data)
 
