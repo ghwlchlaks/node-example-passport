@@ -4,7 +4,7 @@ var IssueTicket = require('../models/issueTicket').issueTicket
 
 //redis set
 var redis = require('redis');
-var captureList = redis.createClient(6379, "172.17.0.3");
+var captureList = redis.createClient(6379, "172.17.0.2");
 
 //crypto
 var crypto = require('crypto')
