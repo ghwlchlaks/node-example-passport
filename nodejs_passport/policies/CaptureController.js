@@ -42,6 +42,20 @@ module.exports = {
         })
     },
 
+	deleteImage(req, res) {
+		var ticket_id = req.body.ticket_ID.split("/")[2];
+//		console.log(ticket_id.split("/")[2])
+//		console.log("ticket Id" + ticket_id);
+		IssueTicket.remove({"ticket_id": ticket_id}, function(err, result) {
+			if(err) {res.send({state:false, message: err})}
+			if(!result) {res.send({state: false, message: "not match to ticket id"})}
+			else {
+				console.log("success delete "+ result)
+				res.send({state: true, message: "success"})
+			}
+		})
+	},
+
     clearTicket(req, res) {
         var ticket_id = req.body.Ticket_ID
 

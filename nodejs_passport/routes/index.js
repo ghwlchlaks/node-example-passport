@@ -36,7 +36,14 @@ function isLoggedIn(req, res, next) {
 }
 
 router.post('/capture/putCaptureWork', captureController.putCaptureWork)
+router.post('/capture/deleteImage', captureController.deleteImage)
 router.post('/capture/clearTicket', captureController.clearTicket)
 router.get('/profile',isLoggedIn, captureController.getCaptureImage)
+
+//
+router.get('/share',function(req, res, next) {
+  res.render('share_IDA');
+})
+//
 
 module.exports = router;

@@ -12,7 +12,7 @@
     <p> token : <%= token %></p>
     <% for (var i=0; i< images.length; i++) { %>
       <!-- <h1><%= images[i].Ticket_ID %></h1> -->
-      <img height="10%" width="10%" src= /captureImages/<%= images[i].ticket_id %>.jpg></img>
+      <img class="captureImage" height="10%" width="10%" src= /captureImages/<%= images[i].ticket_id %>.jpg></img>
     <% } %>
 
     <form action="/logout" method="GET">
@@ -22,6 +22,17 @@
     <input type='text' id='url' placeholder="input the url"><br/>
     <input type='button' id='capture' value='capture'>
     
+	<dialog id="sweet-modal">
+		<h3 class="modal-header"> Image </h3>
+		<div class="modal-body">
+			<img id="dialogImage"></img>
+		</div>
+		<footer class="modal-footer">
+			<button class="close" type="button"> close</button>
+			<button class="delete" type="button"> delete </button>
+		</footer>
+	</dialog>
+ 
     <script>
       $('#capture').click(function(){
         var url = $('#url').val()
@@ -40,6 +51,37 @@
           },
         })
       })
+	
+	var ticket_ID = null
+	var modal = document.getElementById("sweet-modal");
+	$('.captureImage').each(function(index) {
+		$(this).click(function() {
+			$('#dialogImage').attr('src', $(this).attr('src'));
+			modal.showModal();
+			ticket_ID = $(this).attr('src').split(".");
+		})
+	})
+	$('.close').click(function() {
+		modal.close();
+	})
+	$('.delete').click(function() {
+		$.ajax({
+			type: "POST",
+			url : "/capture/deleteImage",
+			contentType: "application/json",
+			data: JSON.stringify({"ticket_ID": ticket_ID[0]}),
+			success: function(args) {
+				console.log(args)
+			},
+			error: function(e) {
+				alert(e+"\n failed delete")
+				console.log(e)
+			}
+		
+		})
+	})
     </script>
   </body>
+  <style>
+  </style>
 </html>
