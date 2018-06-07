@@ -3,6 +3,8 @@
   <head>
   <link rel='stylesheet' href='/stylesheets/style.css' /> 
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> 
   </head>
   <body>
     <!-- <h1>email : <%= user.email %></h1> -->
@@ -12,7 +14,7 @@
     <p> token : <%= token %></p>
     <% for (var i=0; i< images.length; i++) { %>
       <!-- <h1><%= images[i].Ticket_ID %></h1> -->
-      <img class="captureImage" height="10%" width="10%" src= /captureImages/<%= images[i].ticket_id %>.jpg></img>
+      <img data-toggle="modal" href="#myModal" class="captureImage" height="10%" width="10%" src= /captureImages/<%= images[i].ticket_id %>.jpg></img>
     <% } %>
 
     <form action="/logout" method="GET">
@@ -22,17 +24,26 @@
     <input type='text' id='url' placeholder="input the url"><br/>
     <input type='button' id='capture' value='capture'>
     
-	<dialog id="sweet-modal">
-		<h3 class="modal-header"> Image </h3>
-		<div class="modal-body">
-			<img id="dialogImage"></img>
+	<div class="modal" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h4 class="modal-title">Image</h4>
+				</div>
+				<div class="modal-body">
+					<img id="dialogImage"></img>
+					<h5 id="ticket_id"></h5>
+				</div>
+				<div class="modal-footer">
+					<a data-dismiss="modal" class="btn"> close</a>
+					<a class="delete btn btn-primary"> delete</a>
+				</div>
+			</div>
 		</div>
-		<footer class="modal-footer">
-			<button class="close" type="button"> close</button>
-			<button class="delete" type="button"> delete </button>
-		</footer>
-	</dialog>
- 
+	</div>
+
+
     <script>
       $('#capture').click(function(){
         var url = $('#url').val()
@@ -57,13 +68,12 @@
 	$('.captureImage').each(function(index) {
 		$(this).click(function() {
 			$('#dialogImage').attr('src', $(this).attr('src'));
-			modal.showModal();
+			//modal.showModal();
 			ticket_ID = $(this).attr('src').split(".");
+			$('#ticket_id').html("ticketID : "+ticket_ID[0].split("/")[2]);
 		})
 	})
-	$('.close').click(function() {
-		modal.close();
-	})
+
 	$('.delete').click(function() {
 		$.ajax({
 			type: "POST",
@@ -77,8 +87,9 @@
 				alert(e+"\n failed delete")
 				console.log(e)
 			}
-		
+				
 		})
+		window.location.reload();
 	})
     </script>
   </body>

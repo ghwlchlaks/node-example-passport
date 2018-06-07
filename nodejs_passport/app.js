@@ -43,6 +43,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/captureImages',express.static(path.join(__dirname, '/../../../Webcapture/result/img')));
 app.use('/captureImages',express.static(path.join(__dirname, '/../../../../datalake/capture/thumb')));
+app.use('/captureImages/origin',express.static(path.join(__dirname, '/../../../../datalake/capture/img')));
+
 
 require('./policies/FBauthenticationManager')(passport)
 require('./policies/GoogleauthenticationManager')(passport)

@@ -85,7 +85,26 @@ module.exports = {
                 res.render('profile', {user: req.user, token: req.user.token, images: result})
             }
         })
-    }
+    },
+//
+   getShareImage(req, res) {
+	var share_url = 'test_ticket_id'
+//	var image
+	IssueTicket.findOne({'Ticket_ID' : share_url}, function(err, result){
+		if(err) {
+			res.send({state: false, message: err})
+		}else{
+//			console.log(result)
+//			image = result
+			res.render('share', {image: 'test_ticket_id'})
+//			res.render('share', {images: result})
+//			res.render('share', {user: req.user, images: result})
+		}
+		console.log(result)
+	})
+   }
+//
+
 }
 //input list('CaptureList', 'FB_ID', 'Ticket_ID', 'URL')
 var inputList = function(fb_id, ticket_id, url, res){
